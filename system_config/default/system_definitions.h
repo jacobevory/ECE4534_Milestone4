@@ -60,7 +60,6 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "system/ports/sys_ports.h"
 #include "FreeRTOS.h"
 #include "task.h"
-#include "app.h"
 
 
 // DOM-IGNORE-BEGIN
