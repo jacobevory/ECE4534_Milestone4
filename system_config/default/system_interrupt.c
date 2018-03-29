@@ -61,7 +61,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 #include "system/common/sys_common.h"
 #include "system_definitions.h"
-#include "uart_thread.h"
+#include "data_thread.h"
 #include "stdint.h"
 
 // *****************************************************************************
@@ -135,6 +135,7 @@ void IntHandlerDrvTmrInstance2(void)
 }
 void IntHandlerDrvTmrInstance3(void)
 {
+    line.rollover = true;
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_5);
 }
  

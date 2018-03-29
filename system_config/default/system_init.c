@@ -118,6 +118,15 @@ SYSTEM_OBJECTS sysObj;
 // Section: Module Initialization Data
 // *****************************************************************************
 // *****************************************************************************
+// <editor-fold defaultstate="collapsed" desc="SYS_TMR Initialization Data">
+/*** TMR Service Initialization Data ***/
+const SYS_TMR_INIT sysTmrInitData =
+{
+    .moduleInit = {SYS_MODULE_POWER_RUN_FULL},
+    .drvIndex = DRV_TMR_INDEX_0,
+    .tmrFreq = 1000, 
+};
+// </editor-fold>
 
 // *****************************************************************************
 // *****************************************************************************
@@ -149,6 +158,7 @@ void SYS_Initialize ( void* data )
     SYS_DEVCON_Initialize(SYS_DEVCON_INDEX_0, (SYS_MODULE_INIT*)NULL);
     SYS_DEVCON_PerformanceConfig(SYS_CLK_SystemFrequencyGet());
     SYS_DEVCON_JTAGEnable();
+    SYS_PORTS_Initialize();
 
     /* Board Support Package Initialization */
     BSP_Initialize();        
@@ -175,11 +185,17 @@ void SYS_Initialize ( void* data )
     /*** Interrupt Service Initialization Code ***/
     SYS_INT_Initialize();
 
+    /*** TMR Service Initialization Code ***/
+    sysObj.sysTmr  = SYS_TMR_Initialize(SYS_TMR_INDEX_0, (const SYS_MODULE_INIT  * const)&sysTmrInitData);
+
     /* Initialize Middleware */
 
-    /* Initialize Threads */
+    /* Initialize the Threads */
     UART_Initialize();
-    
+    Data_Initialize();
+    Line_Initialize();
+    Motor_Initialize();
+    Encoder_Initialize();
 }
 
 

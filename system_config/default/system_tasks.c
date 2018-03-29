@@ -65,9 +65,17 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
  
 static void _SYS_Tasks ( void );
+void _SYS_TMR_Tasks(void);
  
- static void _UART_Tasks(void);
+static void _UART_Tasks(void);
 
+static void _LINE_Tasks(void);
+
+static void _DATA_Tasks(void);
+
+static void _MOTOR_Tasks(void);
+
+static void _ENCODER_Tasks(void);
 // *****************************************************************************
 // *****************************************************************************
 // Section: System "Tasks" Routine
@@ -89,13 +97,37 @@ void SYS_Tasks ( void )
                 "Sys Tasks",
                 1024, NULL, 0, NULL);
 
-    
+
+    /* Create task for System Timer state machine*/
+    /* Create OS Thread for SYS_TMR Tasks. */
+    xTaskCreate((TaskFunction_t) _SYS_TMR_Tasks,
+                "SYS_TMR Tasks",
+                1024, NULL, 1, NULL);
     
     /* Create OS Thread for UART Tasks. */
     xTaskCreate((TaskFunction_t) _UART_Tasks,
                 "UART Tasks",
                 4096, NULL, 1, NULL); 
- 
+    
+    /* Create OS Thread for LINE Tasks. */
+    xTaskCreate((TaskFunction_t) _LINE_Tasks,
+                "Line Tasks",
+                1024, NULL, 2, NULL); 
+
+        /* Create OS Thread for DATA Tasks. */
+    xTaskCreate((TaskFunction_t) _DATA_Tasks,
+                "Data Tasks",
+                4096, NULL, 1, NULL); 
+    
+        /* Create OS Thread for DATA Tasks. */
+    xTaskCreate((TaskFunction_t) _MOTOR_Tasks,
+                "Data Tasks",
+                1024, NULL, 1, NULL); 
+    
+        /* Create OS Thread for DATA Tasks. */
+    xTaskCreate((TaskFunction_t) _ENCODER_Tasks,
+                "Encoder Tasks",
+                1024, NULL, 1, NULL);
     /**************
      * Start RTOS * 
      **************/
@@ -126,6 +158,14 @@ static void _SYS_Tasks ( void)
     }
 }
 
+void _SYS_TMR_Tasks(void)
+{
+    while(1)
+    {
+        SYS_TMR_Tasks(sysObj.sysTmr);
+    }
+ }
+
 static void _UART_Tasks(void)
 {
     while(1)
@@ -133,8 +173,38 @@ static void _UART_Tasks(void)
         UART_Tasks();
     }
 }
- 
 
+static void _LINE_Tasks(void)
+{
+    while(1)
+    {
+        LINE_Tasks();
+    }
+}
+
+static void _DATA_Tasks(void)
+{
+    while(1)
+    {
+        DATA_Tasks();
+    }
+}
+
+static void _MOTOR_Tasks(void)
+{
+    while(1)
+    {
+        MOTOR_Tasks();
+    }
+}
+
+static void _ENCODER_Tasks(void)
+{
+    while(1)
+    {
+        Encoder_Tasks();
+    }
+}
 /*******************************************************************************
  End of File
  */

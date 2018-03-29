@@ -88,8 +88,50 @@ extern "C" {
 #define SYS_CLK_CONFIG_PRIMARY_XTAL         8000000ul
 #define SYS_CLK_CONFIG_SECONDARY_XTAL       32768ul
    
+/*** Ports System Service Configuration ***/
+#define SYS_PORT_AD1PCFG        ~0xdf
+#define SYS_PORT_CNPUE          0x98000
+#define SYS_PORT_CNEN           0x0
+#define SYS_PORT_A_TRIS         0xFFFF
+#define SYS_PORT_A_LAT          0x0000
+#define SYS_PORT_A_ODC          0x0000
+
+#define SYS_PORT_B_TRIS         0xFFDF
+#define SYS_PORT_B_LAT          0x0000
+#define SYS_PORT_B_ODC          0x0000
+
+#define SYS_PORT_C_TRIS         0xBFFF
+#define SYS_PORT_C_LAT          0x0000
+#define SYS_PORT_C_ODC          0x0000
+
+#define SYS_PORT_D_TRIS         0xFFFB
+#define SYS_PORT_D_LAT          0x0000
+#define SYS_PORT_D_ODC          0x0000
+
+#define SYS_PORT_E_TRIS         0xFFFF
+#define SYS_PORT_E_LAT          0x0000
+#define SYS_PORT_E_ODC          0x0000
+
+#define SYS_PORT_F_TRIS         0xFFFF
+#define SYS_PORT_F_LAT          0x0000
+#define SYS_PORT_F_ODC          0x0000
+
+#define SYS_PORT_G_TRIS         0xFFFF
+#define SYS_PORT_G_LAT          0x0000
+#define SYS_PORT_G_ODC          0x0000
+
+
 /*** Interrupt System Service Configuration ***/
 #define SYS_INT                     true
+/*** Timer System Service Configuration ***/
+#define SYS_TMR_POWER_STATE             SYS_MODULE_POWER_RUN_FULL
+#define SYS_TMR_DRIVER_INDEX            DRV_TMR_INDEX_0
+#define SYS_TMR_MAX_CLIENT_OBJECTS      5
+#define SYS_TMR_FREQUENCY               1000
+#define SYS_TMR_FREQUENCY_TOLERANCE     10
+#define SYS_TMR_UNIT_RESOLUTION         10000
+#define SYS_TMR_CLIENT_TOLERANCE        10
+#define SYS_TMR_INTERRUPT_NOTIFICATION  false
 
 // *****************************************************************************
 // *****************************************************************************
@@ -179,6 +221,9 @@ extern "C" {
 // *****************************************************************************
 // *****************************************************************************
 /*** Application Defined Pins ***/
+
+
+/*** Application Instance 0 Configuration ***/
 
 //DOM-IGNORE-BEGIN
 #ifdef __cplusplus
