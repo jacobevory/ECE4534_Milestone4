@@ -178,7 +178,7 @@ void SYS_Initialize ( void* data )
     /* Initialize Middleware */
 
     /* Initialize Threads */
-    UART_Initialize1();
+    UART_Initialize();
     
 }
 

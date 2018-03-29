@@ -25,7 +25,7 @@ void uart_send_to_receive_queue(char data){
 	xQueueSendToBackFromISR( uart.urQueue, &data, (TickType_t) 0);
 }
 
-void UART_Initialize1(void){
+void UART_Initialize(void){
     uart_buffer_create();
     PLIB_USART_Enable (USART_ID_1);
 }

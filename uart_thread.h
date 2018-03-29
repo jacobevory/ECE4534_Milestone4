@@ -26,7 +26,7 @@ void uart_send(char data);
 char uart_receive(void);
 char uart_receive_from_transmit_queue(void);
 void uart_send_to_receive_queue(char data);
-void UART_Initialize1(void);
+void UART_Initialize(void);
 void transmitUARTstring(char *string);
 void transmitUARTchar(char);
 void UART_Tasks(void);
