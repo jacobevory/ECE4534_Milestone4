@@ -68,6 +68,8 @@
         return;
     }
     void Motor_Initialize(void){
+        PLIB_PORTS_DirectionOutputSet( PORTS_ID_0, PORT_CHANNEL_C,  0x4000);
+        PLIB_PORTS_DirectionOutputSet( PORTS_ID_0, PORT_CHANNEL_G,  0x0001);
         DRV_TMR0_Start();
         motor.leftSpeed = 0;
         motor.rightSpeed = 0;
@@ -78,24 +80,16 @@
     }
 
     void MOTOR_Tasks(void){
-        
-        //struct encoder_message *ENCODER_MESSAGE;
-        for(;;){            
-            /*
-            if(uxQueueMessagesWaiting( encoder.eQueue ) > 0){
-                ENCODER_MESSAGE = encoder_sensor_receive();
-                encoder.rightVal = ENCODER_MESSAGE->right;
-                encoder.leftVal = ENCODER_MESSAGE->left;
+        motor.demo_int = REVERSE;
+        for(;;){
+            uint32_t demo_for_int;
+            if(motor.demo_int == FORWARD) motor.demo_int = REVERSE;
+            else if (motor.demo_int == REVERSE) motor.demo_int = FORWARD;
+            for(demo_for_int = 0; demo_for_int < 100; demo_for_int+=10){
+                setMotorR(motor.demo_int, demo_for_int);
+                setMotorL(motor.demo_int, demo_for_int);
+                vTaskDelay(1000);
             }
-            
-            dbgOutputVal((uint32_t)(encoder.rightVal*100));
-            dbgOutputLoc((uint32_t)(encoder.leftVal*100));
-            if(motor.TIME_TO_SEND){
-                motor_send(motor.leftDir, motor.rightDir, motor.leftPower, motor.rightPower);
-                motor.TIME_TO_SEND = false;
-            }
-           */
-       
         }
     }
 /* *****************************************************************************

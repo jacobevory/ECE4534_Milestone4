@@ -218,7 +218,18 @@ void DATA_Tasks(void){
                 transmitUARTstring(line_string_17);
                 transmitUARTstring(line_string_18);
             }
-            
+            else if(inDataMessage.messageType == Distance){
+                char *distance_string_0 = "{\"typ\":\"d\",\"rid\":\"1\",\"seq\":\"\0";
+                char  distance_string_1[5]; itoa(distance_string_1, data.seq, 10); distance_string_1[4] = '\0';
+                char *distance_string_2 = "\",\"di1\":\"\0";
+                char distance_string_3[5]; itoa(distance_string_3, inDataMessage.distance, 10); distance_string_3[4] = '\0';
+                char *distance_string_4 = "\"}\0";
+                transmitUARTstring(distance_string_0);
+                transmitUARTstring(distance_string_1);
+                transmitUARTstring(distance_string_2);
+                transmitUARTstring(distance_string_3);
+                transmitUARTstring(distance_string_4);
+            }
             
             
         }

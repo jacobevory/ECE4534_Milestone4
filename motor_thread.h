@@ -21,6 +21,7 @@ extern "C" {
         bool leftDir;
         uint32_t rightPower;
         bool rightDir;
+        uint32_t demo_int;
     } MOTOR_CONTROLLER_DATA;
     
     MOTOR_CONTROLLER_DATA motor;
