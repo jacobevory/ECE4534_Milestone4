@@ -17,11 +17,11 @@ def printMotor ( lefts, leftd, rights, rightd  ):
 	if (rightd != '0'):
 		print ('\nRight Direction: FORWARD' )
 	else:
-		print ('\nRight Direction: REVERSE' )
+		print ('\nRight Direction: REVERSE')
 	
 def printLineSet ( li0, li1, li2, li3, li4, li5, li6, li7 ):
 	print ('\n\nCurrent line sensor data:')
-	print ('\n 1 2 3 4 5 6 7 8')
+	print ('\n 0 1 2 3 4 5 6 7')
 	print ('\n | | | | | | | |')
 	print ('\n', li0, li1, li2, li3, li4, li5, li6, li7)
 	
@@ -30,6 +30,8 @@ def printSequence (seqnum):
 	
 def printMessageType (type):
 	print('\n\nThe last non-empty received message type was:', type)
+
+globPrev = 's'
 	
 def printData():
 	printHeader()
@@ -37,8 +39,39 @@ def printData():
 	printMessageType(lmt)
 	printMotor( spl, dil, spr, dir  )
 	printLineSet(l0, l1, l2, l3, l4, l5, l6, l7)
+	print('\n' + globPrev)
 	
 	
+def parseLine(ln1, ln2, ln3, ln4, ln5, ln6, ln7, ln8):
+	prev = 'c'
+	globPrev = prev
+	
+	#line on center
+	if (ln4 == '1'or ln5 == '1') and ln1 == '0' and ln3 == '0' and ln2 == '0' and ln6 == '0' and ln7 == '0' and ln8 == '0':
+		prev = 'c'
+		client.send(prev.encode('ascii'))
+		
+		
+		return
+	#line on left
+	elif (ln6 == '1' or ln7 == '1' or ln8 == '1') and ln1 == '0' and ln2 == '0' and ln3 == '0' and ln4 == '0' and ln5 == '0':
+		if prev == 'r':
+			client.send('0')
+		else:
+			prev = 'l'
+			client.send(prev.encode('ascii'))
+			
+	#line on right
+	elif (ln1 == '1' or ln2 == '1' or ln3 == '1') and ln6 == '0' and ln7 == '0' and ln8 == '0' and ln4 == '0' and ln5 == '0':
+		if prev == 'l':
+			client.send('0')
+		else:
+			prev = 'r'
+			client.send(prev.encode('ascii'))
+		
+	else:
+		client.send(prev.encode('ascii'))
+
 host = ''
 port = 4000
 backlog = 5
@@ -73,6 +106,7 @@ while True:
 		if data:
 			try:
 				data = data.decode('ascii')
+				print("data: " + data)
 				j = json.loads(data)
 				if (j['typ'] == 'm'):
 					typ = j['typ']
@@ -94,7 +128,9 @@ while True:
 					l5 = j['li5']
 					l6 = j['li6']
 					l7 = j['li7']
+					parseLine(str(l0), str(l1), str(l2), str(l3), str(l4), str(l5), str(l6), str(l7))
 					printData()
+					
 					
 				if (j['typ'] == 'n'):
 					typ = j['typ']
@@ -103,6 +139,8 @@ while True:
 					
 				if (typ != 'n'):
 					lmt = typ
-			except:
-				pass
+			except Exception as e:
+				print(str(e))
+				
+				
 client.close()

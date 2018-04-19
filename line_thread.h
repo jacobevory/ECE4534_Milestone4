@@ -9,7 +9,7 @@
 #include "stdint.h"
 #include "stdlib.h"
 
-#define LINE_CUTOFF 1000
+#define LINE_CUTOFF 2500
 
 #define lineBit0 PORTBbits.RB8
 #define lineBit1 PORTBbits.RB9

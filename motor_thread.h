@@ -11,8 +11,8 @@
 extern "C" {
 #endif
 
-#define FORWARD false
-#define REVERSE true
+#define FORWARD true
+#define REVERSE false
 
     typedef struct{
         float leftSpeed;

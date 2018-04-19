@@ -80,6 +80,65 @@
     }
 
     void MOTOR_Tasks(void){
+        int state = 0;//idle
+        char linedata = 'c';
+        int right = 0;
+        int left = 0;
+        char lastLine ='c';
+        char receive;
+
+        for(;;){
+            vTaskDelay(50);
+
+            if(state == 0){ //if in idle state            
+                if(linedata == '0'){//if not on line
+                    state = 1;//change to line search
+
+                }
+                else if(linedata == 'c'){
+                     //transmitUARTstring("{\"line\":\"center\"}");
+                     setMotorR(FORWARD,50);
+                     setMotorL(FORWARD, 50);
+                     lastLine = '1';
+                }
+                else if (linedata == 'r'){
+                    //transmitUARTstring("{\"line\":\"right\"}");
+                    setMotorL(FORWARD,50);
+                    setMotorR(REVERSE, 50);
+                     lastLine = '2';
+                }
+                else if(linedata =='l'){
+                     //transmitUARTstring("{\"line\":\"left\"}");
+                     setMotorR(FORWARD,50);
+                     setMotorL(REVERSE, 50);
+                      lastLine = '3';
+                }
+              lastLine = linedata;
+              linedata = uart_receive();
+
+            }
+            else{
+
+                if(lastLine == 'r'){
+                    //transmitUARTstring("{\"line\":\"lost right\"}");
+                    setMotorL(FORWARD,50);
+                    setMotorR(REVERSE, 50);
+                }
+                else if(lastLine == 'l'){
+                    //transmitUARTstring("{\"line\":\"lost left\"}");
+                     setMotorR(FORWARD,50);
+                     setMotorL(REVERSE, 50);
+                }
+
+                if(linedata != '0'){//line found
+                    state = 0; //switch back to idle state
+                }
+
+            }
+
+        }
+
+        /*
         motor.demo_int = REVERSE;
         for(;;){
             uint32_t demo_for_int;
@@ -90,7 +149,7 @@
                 setMotorL(motor.demo_int, demo_for_int);
                 vTaskDelay(1000);
             }
-        }
+        }*/
     }
 /* *****************************************************************************
  End of File
