@@ -176,10 +176,12 @@ void SYS_Initialize ( void* data )
     /*Initialize TMR3 */
     DRV_TMR3_Initialize();
  
-     sysObj.drvUsart0 = DRV_USART_Initialize(DRV_USART_INDEX_0, (SYS_MODULE_INIT *)NULL);
+    /* Initialize ADC */
+    DRV_ADC_Initialize();
+
+    sysObj.drvUsart0 = DRV_USART_Initialize(DRV_USART_INDEX_0, (SYS_MODULE_INIT *)NULL);
     SYS_INT_VectorPrioritySet(INT_VECTOR_UART1, INT_PRIORITY_LEVEL1);
     SYS_INT_VectorSubprioritySet(INT_VECTOR_UART1, INT_SUBPRIORITY_LEVEL0);
-
     /* Initialize System Services */
 
     /*** Interrupt Service Initialization Code ***/
@@ -187,8 +189,6 @@ void SYS_Initialize ( void* data )
 
     /*** TMR Service Initialization Code ***/
     sysObj.sysTmr  = SYS_TMR_Initialize(SYS_TMR_INDEX_0, (const SYS_MODULE_INIT  * const)&sysTmrInitData);
-
-    /* Initialize Middleware */
 
     /* Initialize the Threads */
     UART_Initialize();

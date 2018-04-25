@@ -74,7 +74,6 @@ void IntHandlerDrvUsartInstance0(void)
         /* This is the USART Driver Transmit tasks routine.
        In this function, the driver checks if a transmit
        interrupt is active and performs respective action*/
-
     /* Reading the transmit interrupt flag */
     if(SYS_INT_SourceStatusGet(INT_SOURCE_USART_1_TRANSMIT))
     {
@@ -119,6 +118,11 @@ void IntHandlerDrvUsartInstance0(void)
  
 
  
+void IntHandlerDrvAdc(void)
+{
+   /* Clear ADC Interrupt Flag */
+   PLIB_INT_SourceFlagClear(INT_ID_0, INT_SOURCE_ADC_1);
+}
 
  
 void IntHandlerDrvTmrInstance0(void)
